@@ -4,10 +4,10 @@ from dataclasses import dataclass
 
 @dataclass
 class HTMLNode:
-    tag: str | None
-    value: str | None
-    children: list[HTMLNode] | None
-    props: dict[str, str] | None
+    tag: str | None = None
+    value: str | None = None
+    children: list[HTMLNode] | None = None
+    props: dict[str, str] | None = None
 
     def to_html(self):
         raise NotImplementedError
