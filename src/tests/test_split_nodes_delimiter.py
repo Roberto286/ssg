@@ -1,6 +1,5 @@
 import unittest
-
-from main import split_nodes_delimiter
+from functions import split_nodes_delimiter
 from nodes.textnode import TextNode, TextType
 
 
