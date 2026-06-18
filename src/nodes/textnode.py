@@ -20,6 +20,9 @@ class TextNode:
     text_type: TextType
     url: str | None = None
 
+    def __repr__(self):
+        return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
+
 
 def text_node_to_html_node(text_node: "TextNode"):
     text_type = text_node.text_type
