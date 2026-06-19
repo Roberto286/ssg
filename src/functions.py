@@ -15,7 +15,7 @@ def split_nodes_delimiter(
         parts = old_node.text.split(delimiter)
 
         if len(parts) % 2 == 0:
-            # raise Exception("delimiter not closed")
+            raise Exception("delimiter not closed")
 
         for i in range(len(parts)):
             part = parts[i]
