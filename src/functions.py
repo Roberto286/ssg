@@ -54,15 +54,24 @@ def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
 
     result: list[TextNode] = []
     for node in old_nodes:
-        links = extract_markdown_links(node.text)
-        pointer = 0
-        for link in links:
-            start = node.text.find(link[0])
-            end = start + len(link[0] + link[1])
-            text = node.text[pointer : start - 1]
-            if text:
-                result.append(TextNode(text, TextType.TEXT))
-            result.append(TextNode(text=link[0], url=link[1], text_type=TextType.LINK))
-            pointer = end + 3
+        if node.text_type != TextType.TEXT:
+            result.append(node)
+            continue
 
+        text = node.text
+        links = extract_markdown_links(node.text)
+
+        for link in links:
+            link_in_markdown = f"[{link[0]}]({link[1]})"
+            parts = text.split(link_in_markdown, 1)
+
+            text_part = parts[0]
+            if text_part:
+                result.append(TextNode(text=text_part, text_type=TextType.TEXT))
+            result.append(TextNode(text=link[0], url=link[1], text_type=TextType.LINK))
+
+            text = parts[1]
+
+        if text:
+            result.append(TextNode(text=text, text_type=TextType.TEXT))
     return result
