@@ -8,37 +8,58 @@ class TestSplitNodesImage(unittest.TestCase):
     def test_single_image(self):
         node = TextNode("![alt](https://img.com/a.png)", TextType.TEXT)
         result = split_nodes_image([node])
-        # verify result has 1 node with TextType.IMAGE, text="alt", url="https://img.com/a.png"
+
+        self.assertEqual(len(result), 1)
+        self.assertEqual(
+            result[0], TextNode("alt", TextType.IMAGE, "https://img.com/a.png")
+        )
 
     def test_image_surrounded_by_text(self):
         node = TextNode("before ![alt](https://img.com/a.png) after", TextType.TEXT)
         result = split_nodes_image([node])
-        # verify 3 nodes: TEXT "before ", IMAGE "alt", TEXT " after"
+
+        self.assertEqual(result[0], TextNode("before ", TextType.TEXT))
+        self.assertEqual(
+            result[1], TextNode("alt", TextType.IMAGE, "https://img.com/a.png")
+        )
+        self.assertEqual(result[2], TextNode(" after", TextType.TEXT))
 
     def test_image_at_start(self):
         node = TextNode("![alt](https://img.com/a.png) after", TextType.TEXT)
         result = split_nodes_image([node])
-        # verify no empty TEXT node at the start; first node is IMAGE
+
+        self.assertEqual(
+            result[0], TextNode("alt", TextType.IMAGE, "https://img.com/a.png")
+        )
 
     def test_image_at_end(self):
         node = TextNode("before ![alt](https://img.com/a.png)", TextType.TEXT)
         result = split_nodes_image([node])
-        # verify no empty TEXT node at the end; last node is IMAGE
+
+        self.assertEqual(result[0], TextNode("before ", TextType.TEXT))
+        self.assertEqual(
+            result[1], TextNode("alt", TextType.IMAGE, "https://img.com/a.png")
+        )
 
     def test_multiple_images(self):
         node = TextNode("![a](https://a.com) and ![b](https://b.com)", TextType.TEXT)
         result = split_nodes_image([node])
-        # verify IMAGE nodes for both a and b with correct urls; TEXT node in between
+
+        self.assertEqual(result[0], TextNode("a", TextType.IMAGE, "https://a.com"))
+        self.assertEqual(result[1], TextNode(" and ", TextType.TEXT))
+        self.assertEqual(result[2], TextNode("b", TextType.IMAGE, "https://b.com"))
 
     def test_no_images(self):
         node = TextNode("plain text no images", TextType.TEXT)
         result = split_nodes_image([node])
-        # verify result is unchanged: 1 TEXT node with the original text
+
+        self.assertEqual(result, [node])
 
     def test_non_text_node_unchanged(self):
         node = TextNode("already bold", TextType.BOLD)
         result = split_nodes_image([node])
-        # verify node passes through untouched (not split)
+
+        self.assertEqual(result, [node])
 
     def test_multiple_input_nodes(self):
         nodes = [
@@ -46,16 +67,22 @@ class TestSplitNodesImage(unittest.TestCase):
             TextNode("plain", TextType.TEXT),
         ]
         result = split_nodes_image(nodes)
-        # verify IMAGE node from first input, TEXT node from second input
+
+        self.assertEqual(result[0], TextNode("a", TextType.IMAGE, "https://a.com"))
+        self.assertEqual(result[1], TextNode("plain", TextType.TEXT))
 
     def test_image_url_stored_on_node(self):
         node = TextNode("![cat](https://cat.com/cat.jpg)", TextType.TEXT)
         result = split_nodes_image([node])
-        # verify result[0].url == "https://cat.com/cat.jpg"
+
+        self.assertEqual(result[0].url, "https://cat.com/cat.jpg")
 
     def test_adjacent_images_no_empty_text_nodes(self):
         node = TextNode("![a](https://a.com)![b](https://b.com)", TextType.TEXT)
         result = split_nodes_image([node])
+
+        self.assertEqual(result[0], TextNode("a", TextType.IMAGE, "https://a.com"))
+        self.assertEqual(result[1], TextNode("b", TextType.IMAGE, "https://b.com"))
         # verify no empty-string TEXT nodes between the two IMAGE nodes
 
 
