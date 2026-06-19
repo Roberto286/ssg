@@ -15,7 +15,7 @@ def split_nodes_delimiter(
         parts = old_node.text.split(delimiter)
 
         if len(parts) % 2 == 0:
-            raise Exception("delimiter not closed")
+            # raise Exception("delimiter not closed")
 
         for i in range(len(parts)):
             part = parts[i]
@@ -99,4 +99,21 @@ def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
 
         if text:
             result.append(TextNode(text=text, text_type=TextType.TEXT))
+    return result
+
+
+def text_to_textnodes(text: str):
+    result: list[TextNode] = [TextNode(text, TextType.TEXT)]
+    delimiters: list[tuple[str, TextType]] = [
+        ("**", TextType.BOLD),
+        ("__", TextType.ITALIC),
+        ("`", TextType.CODE),
+    ]
+
+    for sign, text_type in delimiters:
+        result = split_nodes_delimiter(result, sign, text_type)
+
+    result = split_nodes_image(result)
+    result = split_nodes_link(result)
+
     return result
