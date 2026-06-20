@@ -68,7 +68,6 @@ This is the same paragraph on a new line
 
     def test_block_with_markdown_inline(self):
         blocks = markdown_to_blocks("**bold** text\n\n`code` here")
-        # verify: ["**bold** text", "`code` here"] — inline markdown preserved verbatim
 
         self.assertEqual(blocks[0], "**bold** text")
         self.assertEqual(blocks[1], "`code` here")

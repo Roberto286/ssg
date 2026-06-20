@@ -99,7 +99,6 @@ class TestTextToTextnodes(unittest.TestCase):
 
     def test_multiple_bold(self):
         result = text_to_textnodes("**a** and **b**")
-        # verify: BOLD "a", TEXT " and ", BOLD "b"
 
         self.assertEqual(result[0], TextNode("a", TextType.BOLD))
         self.assertEqual(result[1], TextNode(" and ", TextType.TEXT))
@@ -107,6 +106,6 @@ class TestTextToTextnodes(unittest.TestCase):
 
     def test_unclosed_delimiter_raises(self):
         def call():
-            text_to_textnodes("`not closed")
+            _ = text_to_textnodes("`not closed")
 
         self.assertRaises(Exception, call)

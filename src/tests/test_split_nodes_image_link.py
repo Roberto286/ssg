@@ -83,7 +83,6 @@ class TestSplitNodesImage(unittest.TestCase):
 
         self.assertEqual(result[0], TextNode("a", TextType.IMAGE, "https://a.com"))
         self.assertEqual(result[1], TextNode("b", TextType.IMAGE, "https://b.com"))
-        # verify no empty-string TEXT nodes between the two IMAGE nodes
 
 
 class TestSplitNodesLink(unittest.TestCase):
