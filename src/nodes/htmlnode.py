@@ -10,6 +10,13 @@ class HTMLNode:
     props: dict[str, str] | None = None
 
     def to_html(self):
+        if self.children:
+            inner = "".join(child.to_html() for child in self.children)
+            return f"<{self.tag}{self.props_to_html()}>{inner}</{self.tag}>"
+        if self.value is not None:
+            if self.tag is None:
+                return self.value
+            return f"<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>"
         raise NotImplementedError
 
     def props_to_html(self):
