@@ -1,17 +1,7 @@
 from dataclasses import dataclass
-from enum import Enum
 
+from enums.text_type import TextType
 from nodes.leafnode import LeafNode
-
-
-class TextType(Enum):
-    PLAIN = "plain"
-    BOLD = "bold"
-    CODE = "code"
-    LINK = "link"
-    IMAGE = "image"
-    TEXT = "text"
-    ITALIC = "italic"
 
 
 @dataclass
