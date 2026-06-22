@@ -1,6 +1,8 @@
 import re
 
-from nodes.textnode import TextNode, TextType
+from enums.block_type import BlockType
+from enums.text_type import TextType
+from nodes.textnode import TextNode
 
 
 def split_nodes_delimiter(
@@ -121,3 +123,19 @@ def text_to_textnodes(text: str):
 
 def markdown_to_blocks(text: str):
     return [block.strip() for block in text.split("\n\n") if block.strip()]
+
+
+def block_to_block_type(text: str) -> BlockType:
+
+    if text.startswith("#"):
+        return BlockType.HEADING
+    if text.startswith("```"):
+        return BlockType.CODE
+    if text.startswith(">"):
+        return BlockType.QUOTE
+    if text.startswith("- "):
+        return BlockType.UNORDERED_LIST
+    if re.match(r"^\d+\. ", text):
+        return BlockType.ORDERED_LIST
+
+    return BlockType.PARAGRAPH
