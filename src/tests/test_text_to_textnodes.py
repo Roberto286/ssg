@@ -20,7 +20,7 @@ class TestTextToTextnodes(unittest.TestCase):
         self.assertEqual(result[2], TextNode(" text", TextType.TEXT))
 
     def test_italic(self):
-        result = text_to_textnodes("this is __italic__ text")
+        result = text_to_textnodes("this is _italic_ text")
 
         self.assertEqual(result[0], TextNode("this is ", TextType.TEXT))
         self.assertEqual(result[1], TextNode("italic", TextType.ITALIC))
@@ -53,27 +53,23 @@ class TestTextToTextnodes(unittest.TestCase):
 
     def test_all_types_combined(self):
         result = text_to_textnodes(
-            "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-studycs-notion-files/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
+            "This is **text** with an _italic_ word and a `code block` and an ![image](https://example.com/image.png) and a [link](https://boot.dev)"
         )
 
         self.assertEqual(result[0], TextNode("This is ", TextType.TEXT))
         self.assertEqual(result[1], TextNode("text", TextType.BOLD))
-        self.assertEqual(
-            result[2], TextNode(" with an *italic* word and a ", TextType.TEXT)
-        )
-        self.assertEqual(result[3], TextNode("code block", TextType.CODE))
-        self.assertEqual(result[4], TextNode(" and an ", TextType.TEXT))
-        self.assertEqual(
-            result[5],
-            TextNode(
-                "image",
-                TextType.IMAGE,
-                "https://storage.googleapis.com/qvault-studycs-notion-files/course_assets/zjjcJKZ.png",
-            ),
-        )
-        self.assertEqual(result[6], TextNode(" and a ", TextType.TEXT))
+        self.assertEqual(result[2], TextNode(" with an ", TextType.TEXT))
+        self.assertEqual(result[3], TextNode("italic", TextType.ITALIC))
+        self.assertEqual(result[4], TextNode(" word and a ", TextType.TEXT))
+        self.assertEqual(result[5], TextNode("code block", TextType.CODE))
+        self.assertEqual(result[6], TextNode(" and an ", TextType.TEXT))
         self.assertEqual(
             result[7],
+            TextNode("image", TextType.IMAGE, "https://example.com/image.png"),
+        )
+        self.assertEqual(result[8], TextNode(" and a ", TextType.TEXT))
+        self.assertEqual(
+            result[9],
             TextNode("link", TextType.LINK, "https://boot.dev"),
         )
 
