@@ -93,14 +93,14 @@ def text_to_textnodes(text: str):
     result: list[TextNode] = [TextNode(text, TextType.TEXT)]
     delimiters: list[tuple[str, TextType]] = [
         ("**", TextType.BOLD),
-        ("__", TextType.ITALIC),
+        ("_", TextType.ITALIC),
         ("`", TextType.CODE),
     ]
 
-    for sign, text_type in delimiters:
-        result = split_nodes_delimiter(result, sign, text_type)
-
     result = split_nodes_image(result)
     result = split_nodes_link(result)
+
+    for sign, text_type in delimiters:
+        result = split_nodes_delimiter(result, sign, text_type)
 
     return result
