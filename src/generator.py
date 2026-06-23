@@ -27,9 +27,13 @@ def generate_page(from_path: str, template_path: str, dest_path: str, basepath: 
     new_content = (
         template_file_content.replace("{{ Title }}", title)
         .replace("{{ Content }}", html_string)
-        .replace("href=/", f"href=/{basepath}")
-        .replace("src=/", f"src=/{basepath}")
     )
+
+    if basepath != "/":
+        new_content = (
+            new_content.replace('href="/', f'href="{basepath}')
+            .replace('src="/', f'src="{basepath}')
+        )
 
     dest_path_as_path = Path(dest_path)
     dest_path_as_path.parent.mkdir(parents=True, exist_ok=True)
