@@ -1,7 +1,7 @@
 import unittest
 
 from enums.text_type import TextType
-from functions import split_nodes_image, split_nodes_link
+from markdown.splitter import split_nodes_image, split_nodes_link
 from nodes.textnode import TextNode
 
 

@@ -1,6 +1,6 @@
 import unittest
 
-from functions import markdown_to_html_node
+from markdown.converter import markdown_to_html_node
 
 
 class TestMarkdownToHtmlNode(unittest.TestCase):

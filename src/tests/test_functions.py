@@ -1,6 +1,6 @@
 import unittest
 
-from functions import (
+from markdown.parser import (
     block_to_block_type,
     extract_markdown_images,
     extract_markdown_links,

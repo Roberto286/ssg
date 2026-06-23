@@ -1,4 +1,4 @@
-from functions import copy_files_to_dir
+from utils.files import copy_files_to_dir
 
 
 def main():

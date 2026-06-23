@@ -1,6 +1,6 @@
 import unittest
 from enums.text_type import TextType
-from functions import split_nodes_delimiter
+from markdown.splitter import split_nodes_delimiter
 from nodes.textnode import TextNode
 
 
